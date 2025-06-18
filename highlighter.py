@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import colorchooser
+import sys
+import ctypes
 
 class LineHighlighter:
     def __init__(self):
@@ -25,6 +27,35 @@ class LineHighlighter:
 
         self.overlay = None
 
+    def make_click_through(self, window):
+        """Attempt to make the overlay ignore mouse events."""
+        if sys.platform.startswith('win'):
+            hwnd = window.winfo_id()
+            style = ctypes.windll.user32.GetWindowLongW(hwnd, -20)
+            ctypes.windll.user32.SetWindowLongW(
+                hwnd, -20, style | 0x80000 | 0x20
+            )
+        elif sys.platform == 'darwin':
+            try:
+                appkit = ctypes.cdll.LoadLibrary(
+                    '/System/Library/Frameworks/AppKit.framework/AppKit'
+                )
+                objc = ctypes.cdll.LoadLibrary('/usr/lib/libobjc.A.dylib')
+                objc.objc_getClass.restype = ctypes.c_void_p
+                objc.sel_registerName.restype = ctypes.c_void_p
+                objc.objc_msgSend.restype = ctypes.c_void_p
+                ns_window = ctypes.c_void_p(int(window.frame(), 16))
+                sel = objc.sel_registerName(b'setIgnoresMouseEvents:')
+                objc.objc_msgSend(ns_window, sel, True)
+            except Exception:
+                pass
+        elif sys.platform.startswith('linux'):
+            try:
+                window.attributes('-type', 'dock')
+                window.attributes('-alpha', float(self.alpha_var.get()))
+            except Exception:
+                pass
+
     def choose_color(self):
         color = colorchooser.askcolor(initialcolor=self.color_var.get())
         if color[1]:
@@ -37,6 +68,7 @@ class LineHighlighter:
             self.overlay.attributes('-topmost', True)
             self.overlay.configure(bg=self.color_var.get())
             self.overlay.attributes('-alpha', self.alpha_var.get())
+            self.make_click_through(self.overlay)
             self.root.withdraw()
             self.follow_mouse()
 
