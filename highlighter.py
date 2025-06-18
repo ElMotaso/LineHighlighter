@@ -2,12 +2,13 @@
 """Cross‑platform cursor‑highlighting bar using PyQt5.
 
 The application displays a translucent bar that follows the mouse
-pointer so readers can keep track of the current line.  A small settings
-window lets the user configure the bar's width, height, transparency,
-colour and the key used to abort.  The overlay ignores mouse events so
-windows below remain interactive.
+pointer so readers can keep track of the current line. A small settings
+window lets the user configure the bar's width, height, transparency and
+colour. Pressing Escape stops the overlay. The overlay ignores mouse
+events so windows below remain interactive.
 """
-from __future__ import annotations
+ABORT_KEY = 'esc'
+
 
 import sys
 import threading
@@ -111,16 +112,26 @@ class HighlightBar(QtWidgets.QWidget):
 
 
     def update_settings(self, settings: Settings):
-        self.settings = settings
+        self.settings = QtCore.QSettings('LineHighlighter', 'LineHighlighter')
         screen_w = QtWidgets.QApplication.primaryScreen().size().width()
-        self.resize(min(settings.width, screen_w), settings.height)
-        self._color = settings.color
+        width = int(self.settings.value('width', screen_w))
+        height = int(self.settings.value('height', 30))
+        alpha = float(self.settings.value('alpha', 0.3))
+        color_hex = self.settings.value('color', '#ffff00')
 
-    def update_position(self):
-        pos = QtGui.QCursor.pos()
-        y = pos.y() - self.settings.height // 2
-        self.move(0, y)
-        self.repaint()
+        self.width_spin = QtWidgets.QSpinBox(value=width, minimum=10, maximum=10000)
+        self.height_spin = QtWidgets.QSpinBox(value=height, minimum=2, maximum=1000)
+        self.alpha_spin = QtWidgets.QDoubleSpinBox(value=alpha, minimum=0.05, maximum=1.0, singleStep=0.05)
+        self.color = QtGui.QColor(color_hex)
+    def save_settings(self, s: Settings):
+        self.settings.setValue('width', s.width)
+        self.settings.setValue('height', s.height)
+        self.settings.setValue('alpha', s.alpha)
+        self.settings.setValue('color', s.color.name())
+
+        self.dialog.save_settings(settings)
+            self.hotkey = HotkeyListener(ABORT_KEY, self.stop)
+            QtWidgets.QShortcut(QtGui.QKeySequence(ABORT_KEY), self.overlay, self.stop)
 
     def paintEvent(self, event):
         p = QtGui.QPainter(self)
