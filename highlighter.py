@@ -7,6 +7,7 @@ window lets the user configure the bar's width, height, transparency,
 colour and the key used to abort.  The overlay ignores mouse events so
 windows below remain interactive.
 """
+from __future__ import annotations
 
 import sys
 import threading
