@@ -131,8 +131,8 @@ class HighlightBar(QtWidgets.QWidget):
         self.settings.setValue('color', s.color.name())
 
         self.dialog.save_settings(settings)
-            self.hotkey = HotkeyListener(ABORT_KEY, self.stop)
-            QtWidgets.QShortcut(QtGui.QKeySequence(ABORT_KEY), self.overlay, self.stop)
+        self.hotkey = HotkeyListener(ABORT_KEY, self.stop)
+        QtWidgets.QShortcut(QtGui.QKeySequence(ABORT_KEY), self.overlay, self.stop)
 
     def paintEvent(self, event):
         p = QtGui.QPainter(self)
