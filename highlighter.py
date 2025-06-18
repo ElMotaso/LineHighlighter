@@ -31,16 +31,22 @@ class LineHighlighter:
         """Attempt to make the overlay ignore mouse events."""
         if sys.platform.startswith('win'):
             hwnd = window.winfo_id()
-            style = ctypes.windll.user32.GetWindowLongW(hwnd, -20)
+            GWL_EXSTYLE = -20
+            WS_EX_LAYERED = 0x00080000
+            WS_EX_TRANSPARENT = 0x00000020
+            style = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
             ctypes.windll.user32.SetWindowLongW(
-                hwnd, -20, style | 0x80000 | 0x20
+                hwnd, GWL_EXSTYLE, style | WS_EX_LAYERED | WS_EX_TRANSPARENT
+            )
+            # Ensure layering style uses the alpha set on the window
+            ctypes.windll.user32.SetLayeredWindowAttributes(
+                hwnd, 0, int(float(self.alpha_var.get()) * 255), 0x02
             )
         elif sys.platform == 'darwin':
             try:
-                appkit = ctypes.cdll.LoadLibrary(
-                    '/System/Library/Frameworks/AppKit.framework/AppKit'
-                )
-                objc = ctypes.cdll.LoadLibrary('/usr/lib/libobjc.A.dylib')
+                from ctypes import util
+                appkit = ctypes.cdll.LoadLibrary(util.find_library('AppKit'))
+                objc = ctypes.cdll.LoadLibrary(util.find_library('objc'))
                 objc.objc_getClass.restype = ctypes.c_void_p
                 objc.sel_registerName.restype = ctypes.c_void_p
                 objc.objc_msgSend.restype = ctypes.c_void_p
@@ -49,10 +55,9 @@ class LineHighlighter:
                 objc.objc_msgSend(ns_window, sel, True)
             except Exception:
                 pass
-        elif sys.platform.startswith('linux'):
+        else:
             try:
-                window.attributes('-type', 'dock')
-                window.attributes('-alpha', float(self.alpha_var.get()))
+                window.attributes('-disabled', True)
             except Exception:
                 pass
 
@@ -66,11 +71,11 @@ class LineHighlighter:
             self.overlay = tk.Toplevel(self.root)
             self.overlay.overrideredirect(True)
             self.overlay.attributes('-topmost', True)
-            self.overlay.configure(bg=self.color_var.get())
             self.overlay.attributes('-alpha', self.alpha_var.get())
+            self.overlay.configure(bg=self.color_var.get())
             self.make_click_through(self.overlay)
-            self.root.withdraw()
-            self.follow_mouse()
+        self.root.withdraw()
+        self.follow_mouse()
 
     def follow_mouse(self):
         if not self.overlay:
@@ -80,6 +85,7 @@ class LineHighlighter:
         self.overlay.geometry(geom)
         self.overlay.configure(bg=self.color_var.get())
         self.overlay.attributes('-alpha', float(self.alpha_var.get()))
+        self.overlay.lift()
         self.overlay.after(10, self.follow_mouse)
 
 if __name__ == '__main__':
