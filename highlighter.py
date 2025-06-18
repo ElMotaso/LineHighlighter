@@ -190,6 +190,9 @@ class Controller:
 
     def start(self):
         settings = self.dialog.get_settings()
+        # Ensure the settings window appears in front again
+        self.dialog.raise_()
+        self.dialog.activateWindow()
         if self.overlay is None:
             self.overlay = HighlightBar(settings)
         else:
