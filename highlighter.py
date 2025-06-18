@@ -56,19 +56,25 @@ class LineHighlighter:
         elif sys.platform == 'darwin':
             try:
                 from ctypes import util
-                appkit = ctypes.cdll.LoadLibrary(util.find_library('AppKit'))
                 objc = ctypes.cdll.LoadLibrary(util.find_library('objc'))
                 objc.objc_getClass.restype = ctypes.c_void_p
                 objc.sel_registerName.restype = ctypes.c_void_p
                 objc.objc_msgSend.restype = ctypes.c_void_p
-                ns_window = ctypes.c_void_p(int(window.frame(), 16))
+                ns_window = ctypes.c_void_p(window.winfo_id())
                 sel = objc.sel_registerName(b'setIgnoresMouseEvents:')
                 objc.objc_msgSend(ns_window, sel, True)
             except Exception:
                 pass
         else:
             try:
-                window.attributes('-disabled', True)
+                from ctypes import util
+                x11 = ctypes.cdll.LoadLibrary(util.find_library('X11'))
+                shape = ctypes.cdll.LoadLibrary(util.find_library('Xext'))
+                display = x11.XOpenDisplay(None)
+                if display:
+                    shape.XShapeCombineRegion(display, window.winfo_id(), 2, 0, 0, 0, 0)
+                    x11.XFlush(display)
+                    x11.XCloseDisplay(display)
             except Exception:
                 pass
 
