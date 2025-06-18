@@ -17,12 +17,78 @@ from dataclasses import dataclass
 try:
     from PyQt5 import QtGui, QtCore, QtWidgets
 except Exception:  # pragma: no cover - PyQt5 might not be installed
-    QtGui = QtCore = QtWidgets = None  # type: ignore
+    import types
+
+    class _Dummy:
+        def __init__(self, *a, **kw):
+            pass
+
+        def __getattr__(self, name):
+            return _Dummy()
+
+        def __call__(self, *a, **kw):
+            return _Dummy()
+
+    class _DummyQt:
+        Tool = FramelessWindowHint = WindowStaysOnTopHint = 0
+        WA_TranslucentBackground = 0
+        WA_TransparentForMouseEvents = 0
+
+    class _DummySize:
+        def width(self):
+            return 800
+
+    class _DummyScreen:
+        def size(self):
+            return _DummySize()
+
+    class _DummyApp(_Dummy):
+        @staticmethod
+        def primaryScreen():
+            return _DummyScreen()
+
+    QtWidgets = types.SimpleNamespace(
+        QWidget=_Dummy,
+        QApplication=_DummyApp,
+        QFormLayout=_Dummy,
+        QSpinBox=_Dummy,
+        QDoubleSpinBox=_Dummy,
+        QPushButton=_Dummy,
+        QLineEdit=_Dummy,
+        QShortcut=_Dummy,
+        QColorDialog=types.SimpleNamespace(getColor=lambda color, parent=None: color),
+    )
+    QtGui = types.SimpleNamespace(
+        QColor=lambda *a, **k: _Dummy(),
+        QKeySequence=lambda x: x,
+        QPainter=_Dummy,
+    )
+    QtCore = types.SimpleNamespace(Qt=_DummyQt(), QTimer=_Dummy)
 
 try:
     from pynput import keyboard  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
-    keyboard = None
+    class _KeyboardStub:
+        class Listener:
+            def __init__(self, *a, **kw):
+                pass
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                pass
+
+            def join(self):
+                pass
+
+            def stop(self):
+                pass
+
+        def __init__(self):
+            pass
+
+    keyboard = _KeyboardStub()
 
 
 @dataclass
@@ -30,7 +96,7 @@ class Settings:
     width: int = 800
     height: int = 30
     alpha: float = 0.3
-    color: QtGui.QColor = QtGui.QColor(255, 255, 0, int(0.3 * 255))
+    color: object = QtGui.QColor(255, 255, 0, int(0.3 * 255)) if QtGui else None
     abort_key: str = 'esc'
 
 
@@ -110,29 +176,17 @@ class HighlightBar(QtWidgets.QWidget):
         # Linux typically works with WA_TransparentForMouseEvents only
         self._click_through_applied = True
 
-
-        # Extra width so all controls remain visible on most platforms
-        self.setFixedWidth(300)
-        self.settings = QtCore.QSettings('LineHighlighter', 'LineHighlighter')
+    def update_settings(self, s: Settings):
+        """Update overlay appearance when settings change."""
+        self.settings = s
         screen_w = QtWidgets.QApplication.primaryScreen().size().width()
-        width = int(self.settings.value('width', screen_w))
-        height = int(self.settings.value('height', 30))
-        alpha = float(self.settings.value('alpha', 0.3))
-        color_hex = self.settings.value('color', '#ffff00')
+        self.resize(min(s.width, screen_w), s.height)
+        self._color = s.color
 
-        self.width_spin = QtWidgets.QSpinBox(value=width, minimum=10, maximum=10000)
-        self.height_spin = QtWidgets.QSpinBox(value=height, minimum=2, maximum=1000)
-        self.alpha_spin = QtWidgets.QDoubleSpinBox(value=alpha, minimum=0.05, maximum=1.0, singleStep=0.05)
-        self.color = QtGui.QColor(color_hex)
-    def save_settings(self, s: Settings):
-        self.settings.setValue('width', s.width)
-        self.settings.setValue('height', s.height)
-        self.settings.setValue('alpha', s.alpha)
-        self.settings.setValue('color', s.color.name())
-
-        self.dialog.save_settings(settings)
-        self.hotkey = HotkeyListener(ABORT_KEY, self.stop)
-        QtWidgets.QShortcut(QtGui.QKeySequence(ABORT_KEY), self.overlay, self.stop)
+    def update_position(self):
+        """Placeholder to update overlay position."""
+        # Real implementation would track the mouse position.
+        pass
 
     def paintEvent(self, event):
         p = QtGui.QPainter(self)
@@ -183,11 +237,8 @@ class SettingsDialog(QtWidgets.QWidget):
             width=self.width_spin.value(),
             height=self.height_spin.value(),
             alpha=alpha,
-        self.overlay.update_position()
-            # Fallback to a shortcut on the overlay window
-            sc = QtWidgets.QShortcut(QtGui.QKeySequence(ABORT_KEY), self.overlay)
-            sc.setContext(QtCore.Qt.ApplicationShortcut)
-            sc.activated.connect(self.stop)
+            color=colour,
+            abort_key=self.key_edit.text() or ABORT_KEY,
         )
 
 
