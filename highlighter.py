@@ -4,8 +4,8 @@
 The application displays a translucent bar that follows the mouse
 pointer so readers can keep track of the current line. A small settings
 window lets the user configure the bar's width, height, transparency and
-colour. Pressing Escape stops the overlay. The overlay ignores mouse
-events so windows below remain interactive.
+colour. The settings window stays visible, and the highlighter can be toggled
+on/off directly from the settings dialog.
 """
 from __future__ import annotations
 
@@ -22,8 +22,6 @@ try:
     from pynput import keyboard  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
     keyboard = None
-
-ABORT_KEY = 'esc'
 
 
 @dataclass
@@ -66,7 +64,14 @@ class HighlightBar(QtWidgets.QWidget):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
         screen_w = QtWidgets.QApplication.primaryScreen().size().width()
-        self.resize(min(self.settings.width, screen_w), self.settings.height)
+
+        # Force the width explicitly, but respect the user's setting if possible
+        self._desired_width = min(self.settings.width, screen_w)
+        self._desired_height = self.settings.height
+
+        # Set the fixed size to prevent any automatic resizing
+        self.setFixedSize(self._desired_width, self._desired_height)
+
         self._timer = QtCore.QTimer(self, timeout=self.update_position)
         self._timer.start(10)
         self._color = self.settings.color
@@ -81,10 +86,12 @@ class HighlightBar(QtWidgets.QWidget):
             WS_EX_LAYERED = 0x00080000
             WS_EX_TRANSPARENT = 0x00000020
             ctypes.windll.user32.SetWindowLongW(hwnd, GWL_EXSTYLE,
-                ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED | WS_EX_TRANSPARENT)
+                                                ctypes.windll.user32.GetWindowLongW(hwnd,
+                                                                                    GWL_EXSTYLE) | WS_EX_LAYERED | WS_EX_TRANSPARENT)
             ctypes.windll.user32.SetLayeredWindowAttributes(hwnd, 0,
-                int(self.settings.alpha * 255), 0x02)
-        except Exception:
+                                                            int(self.settings.alpha * 255), 0x02)
+        except Exception as e:
+            print(f"Error applying Windows click-through: {e}")
             pass
 
     def _make_click_through_mac(self):
@@ -97,7 +104,8 @@ class HighlightBar(QtWidgets.QWidget):
             sel = objc.sel_registerName(b'setIgnoresMouseEvents:')
             objc.objc_msgSend.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_bool]
             objc.objc_msgSend(ns_window, sel, True)
-        except Exception:
+        except Exception as e:
+            print(f"Error applying Mac click-through: {e}")
             pass
 
     def apply_click_through(self):
@@ -105,21 +113,28 @@ class HighlightBar(QtWidgets.QWidget):
             return
         if sys.platform.startswith('win'):
             self._make_click_through_win()
+            # Reapply the fixed size after changing window style
+            self.setFixedSize(self._desired_width, self._desired_height)
         elif sys.platform == 'darwin':
             self._make_click_through_mac()
         # Linux typically works with WA_TransparentForMouseEvents only
         self._click_through_applied = True
 
-
     def update_settings(self, settings: Settings):
         self.settings = settings
         screen_w = QtWidgets.QApplication.primaryScreen().size().width()
-        self.resize(min(settings.width, screen_w), settings.height)
+
+        # Update desired dimensions, but respect screen width
+        self._desired_width = min(settings.width, screen_w)
+        self._desired_height = settings.height
+
+        # Apply as fixed size
+        self.setFixedSize(self._desired_width, self._desired_height)
         self._color = settings.color
 
     def update_position(self):
         pos = QtGui.QCursor.pos()
-        y = pos.y() - self.settings.height // 2
+        y = pos.y() - self._desired_height // 2
         self.move(0, y)
         self.repaint()
 
@@ -135,33 +150,108 @@ class SettingsDialog(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Line Highlighter Settings')
-        layout = QtWidgets.QFormLayout(self)
-        self.setFixedWidth(250)
+        layout = QtWidgets.QVBoxLayout(self)
 
+        # Create a form layout for the settings
+        form_layout = QtWidgets.QFormLayout()
+
+        # Initialize QSettings
         self.settings = QtCore.QSettings('LineHighlighter', 'LineHighlighter')
+
+        # Clear any stored window geometry that might interfere
+        self.clearWindowSettings()
+
         screen_w = QtWidgets.QApplication.primaryScreen().size().width()
-        width = int(self.settings.value('width', screen_w))
-        height = int(self.settings.value('height', 30))
-        alpha = float(self.settings.value('alpha', 0.3))
+
+        # Safely retrieve values with better type handling
+        width_value = self.settings.value('width', str(screen_w))
+        height_value = self.settings.value('height', '30')
+        alpha_value = self.settings.value('alpha', '0.3')
         color_hex = self.settings.value('color', '#ffff00')
 
-        self.width_spin = QtWidgets.QSpinBox(value=width, minimum=10, maximum=10000)
+        # Convert with proper error handling
+        try:
+            width = int(width_value)
+            height = int(height_value)
+            alpha = float(alpha_value)
+        except (ValueError, TypeError):
+            # Use defaults if conversion fails
+            width = screen_w
+            height = 30
+            alpha = 0.3
+
+        # Create a status bar for information
+        self.status_label = QtWidgets.QLabel("")
+
+        # Create width spinner with screen width as maximum
+        self.width_spin = QtWidgets.QSpinBox()
+        self.width_spin.setRange(10, 99999)  # Much larger maximum
+        self.width_spin.setValue(width)
         self.width_spin.setMaximumWidth(80)
+
         self.height_spin = QtWidgets.QSpinBox(value=height, minimum=2, maximum=1000)
         self.height_spin.setMaximumWidth(80)
         self.alpha_spin = QtWidgets.QDoubleSpinBox(value=alpha, minimum=0.05, maximum=1.0, singleStep=0.05)
         self.alpha_spin.setMaximumWidth(80)
         self.color_btn = QtWidgets.QPushButton('Choose…')
-        self.start_btn = QtWidgets.QPushButton('Start')
 
-        layout.addRow('Width:', self.width_spin)
-        layout.addRow('Height:', self.height_spin)
-        layout.addRow('Transparency:', self.alpha_spin)
-        layout.addRow('Color:', self.color_btn)
-        layout.addRow(self.start_btn)
+        # Add fields to form layout
+        form_layout.addRow('Width:', self.width_spin)
+        form_layout.addRow('Height:', self.height_spin)
+        form_layout.addRow('Transparency:', self.alpha_spin)
+        form_layout.addRow('Color:', self.color_btn)
 
-        self.color = QtGui.QColor(color_hex)
+        # Add form layout to main layout
+        layout.addLayout(form_layout)
+
+        # Create button layout with Apply and Toggle buttons
+        button_layout = QtWidgets.QHBoxLayout()
+
+        # Apply button
+        self.apply_btn = QtWidgets.QPushButton('Apply Settings')
+
+        # Toggle button with initial text "Start"
+        self.toggle_btn = QtWidgets.QPushButton('Start Highlighter')
+
+        # Add buttons to layout
+        button_layout.addWidget(self.apply_btn)
+        button_layout.addWidget(self.toggle_btn)
+
+        # Add button layout to main layout
+        layout.addLayout(button_layout)
+
+        # Add status label
+        layout.addWidget(self.status_label)
+
+        # Set a reasonable fixed width for the dialog
+        self.setFixedWidth(300)
+
+        # Connect signals
         self.color_btn.clicked.connect(self.choose_color)
+        self.color = QtGui.QColor(color_hex)
+
+        # Keep track of highlighter state
+        self.highlighter_active = False
+
+        # Display screen info
+        self.update_status_info(screen_w)
+
+    def update_status_info(self, screen_width=None):
+        """Update status information about current settings"""
+        if screen_width is None:
+            screen_width = QtWidgets.QApplication.primaryScreen().size().width()
+
+        status = f"Screen width: {screen_width}px"
+        self.status_label.setText(status)
+
+    def clearWindowSettings(self):
+        """Clear any stored window geometry/state from QSettings"""
+        self.settings.remove("geometry")
+        self.settings.remove("windowState")
+        self.settings.remove("size")
+        self.settings.remove("pos")
+        # These keys might not exist, but it's safe to try removing them
+        self.settings.sync()
 
     def choose_color(self):
         col = QtWidgets.QColorDialog.getColor(self.color, self)
@@ -180,10 +270,14 @@ class SettingsDialog(QtWidgets.QWidget):
         )
 
     def save_settings(self, s: Settings):
-        self.settings.setValue('width', s.width)
-        self.settings.setValue('height', s.height)
-        self.settings.setValue('alpha', s.alpha)
+        # Store values as strings to avoid type conversion issues
+        self.settings.setValue('width', str(s.width))
+        self.settings.setValue('height', str(s.height))
+        self.settings.setValue('alpha', str(s.alpha))
         self.settings.setValue('color', s.color.name())
+
+        # Force sync to ensure settings are written
+        self.settings.sync()
 
 
 class Controller:
@@ -193,47 +287,65 @@ class Controller:
         self.app = QtWidgets.QApplication(sys.argv)
         self.dialog = SettingsDialog()
         self.overlay: HighlightBar | None = None
-        self.hotkey: HotkeyListener | None = None
-        self._shortcut = None
-        self.dialog.start_btn.clicked.connect(self.start)
+
+        # Connect the buttons
+        self.dialog.apply_btn.clicked.connect(self.apply_settings)
+        self.dialog.toggle_btn.clicked.connect(self.toggle_highlighter)
+
+        # Show the dialog
         self.dialog.show()
         sys.exit(self.app.exec_())
 
-    def start(self):
+    def apply_settings(self):
+        """Apply current settings to the highlighter without toggling it"""
         settings = self.dialog.get_settings()
         self.dialog.save_settings(settings)
-        if self.overlay is None:
-            self.overlay = HighlightBar(settings)
-        else:
+
+        # Update status with new settings
+        self.dialog.status_label.setText(f"Applied: Width={settings.width}px, Height={settings.height}px")
+
+        # If highlighter is active, update its settings
+        if self.overlay is not None:
             self.overlay.update_settings(settings)
+
+    def toggle_highlighter(self):
+        """Toggle the highlighter on/off"""
+        if self.overlay is None:
+            # Start the highlighter
+            self.start_highlighter()
+            self.dialog.toggle_btn.setText('Stop Highlighter')
+            self.dialog.highlighter_active = True
+        else:
+            # Stop the highlighter
+            self.stop_highlighter()
+            self.dialog.toggle_btn.setText('Start Highlighter')
+            self.dialog.highlighter_active = False
+
+    def start_highlighter(self):
+        """Start the highlighter"""
+        settings = self.dialog.get_settings()
+        self.dialog.save_settings(settings)
+
+        # Create new highlighter
+        self.overlay = HighlightBar(settings)
+
+        # Show and configure it
         self.overlay.show()
         self.overlay.raise_()
         QtWidgets.QApplication.processEvents()
         self.overlay.apply_click_through()
-        self.dialog.hide()
-        if keyboard:
-            if self.hotkey:
-                self.hotkey.stop()
-            self.hotkey = HotkeyListener(ABORT_KEY, self.stop)
-            self.hotkey.start()
-        else:
-            # fallback to QShortcut requiring focus
-            sc = QtWidgets.QShortcut(QtGui.QKeySequence(ABORT_KEY), self.overlay)
-            sc.activated.connect(self.stop)
-            self._shortcut = sc
 
-    def stop(self):
-        if self.hotkey:
-            self.hotkey.stop()
-            self.hotkey = None
+        # Update status
+        screen_w = QtWidgets.QApplication.primaryScreen().size().width()
+        actual_width = min(settings.width, screen_w)
+        self.dialog.status_label.setText(f"Highlighter active: {actual_width}x{settings.height}px")
+
+    def stop_highlighter(self):
+        """Stop the highlighter"""
         if self.overlay:
             self.overlay.close()
             self.overlay = None
-        self._shortcut = None
-        self.dialog.show()
-        # Ensure the settings window appears in front again
-        self.dialog.raise_()
-        self.dialog.activateWindow()
+            self.dialog.status_label.setText("Highlighter stopped")
 
 
 if __name__ == '__main__':
