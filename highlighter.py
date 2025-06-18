@@ -111,7 +111,8 @@ class HighlightBar(QtWidgets.QWidget):
         self._click_through_applied = True
 
 
-    def update_settings(self, settings: Settings):
+        # Extra width so all controls remain visible on most platforms
+        self.setFixedWidth(300)
         self.settings = QtCore.QSettings('LineHighlighter', 'LineHighlighter')
         screen_w = QtWidgets.QApplication.primaryScreen().size().width()
         width = int(self.settings.value('width', screen_w))
@@ -182,8 +183,11 @@ class SettingsDialog(QtWidgets.QWidget):
             width=self.width_spin.value(),
             height=self.height_spin.value(),
             alpha=alpha,
-            color=colour,
-            abort_key=self.key_edit.text() or 'esc',
+        self.overlay.update_position()
+            # Fallback to a shortcut on the overlay window
+            sc = QtWidgets.QShortcut(QtGui.QKeySequence(ABORT_KEY), self.overlay)
+            sc.setContext(QtCore.Qt.ApplicationShortcut)
+            sc.activated.connect(self.stop)
         )
 
 
