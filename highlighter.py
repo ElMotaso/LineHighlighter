@@ -1,173 +1,187 @@
-import tkinter as tk
-from tkinter import colorchooser
+# coding: utf-8
+"""Cross-platform cursor-highlighting bar using PyQt5.
+
+This script shows a translucent bar following the mouse cursor to help
+read long texts. A small settings dialog lets the user adjust width,
+height, transparency, colour and the abort shortcut. The bar ignores
+mouse events so windows underneath remain interactive.
+"""
+
 import sys
-import ctypes
+import threading
+from dataclasses import dataclass
+
 try:
-    import keyboard  # type: ignore
-except Exception:
+    from PyQt5 import QtGui, QtCore, QtWidgets
+except Exception:  # pragma: no cover - PyQt5 might not be installed
+    QtGui = QtCore = QtWidgets = None  # type: ignore
+
+try:
+    from pynput import keyboard  # type: ignore
+except Exception:  # pragma: no cover - optional dependency
     keyboard = None
 
-class LineHighlighter:
-    def __init__(self):
-        self.root = tk.Tk()
-        self.root.title('Line Highlighter Settings')
-        # slightly larger settings window so all widgets are visible
-        self.root.geometry('300x250')
 
-        self.width_var = tk.IntVar(value=self.root.winfo_screenwidth())
-        self.height_var = tk.IntVar(value=20)
-        self.alpha_var = tk.DoubleVar(value=0.3)
-        self.color_var = tk.StringVar(value='#ffff00')
-        # use standard Tk key name for escape so binding works
-        self.abort_key_var = tk.StringVar(value='Escape')
+@dataclass
+class Settings:
+    width: int = 800
+    height: int = 30
+    alpha: float = 0.3
+    color: QtGui.QColor = QtGui.QColor(255, 255, 0, int(0.3 * 255))
+    abort_key: str = 'esc'
 
-        tk.Label(self.root, text='Width:').pack()
-        tk.Entry(self.root, textvariable=self.width_var).pack()
-        tk.Label(self.root, text='Height:').pack()
-        tk.Entry(self.root, textvariable=self.height_var).pack()
-        tk.Label(self.root, text='Transparency (0-1):').pack()
-        tk.Entry(self.root, textvariable=self.alpha_var).pack()
-        tk.Button(self.root, text='Choose Color',
-                  command=self.choose_color).pack(pady=5)
-        tk.Label(self.root, text='Abort key:').pack()
-        tk.Entry(self.root, textvariable=self.abort_key_var).pack()
-        tk.Button(self.root, text='Start',
-                  command=self.start).pack(pady=5)
 
-        self.overlay = None
-        self.running = False
-        self.hotkey = None
-        self.root.protocol('WM_DELETE_WINDOW', self.on_close)
+class HotkeyListener(threading.Thread):
+    """Background listener for a single key using pynput."""
 
-    def _tk_keysym(self, key: str) -> str:
-        mapping = {
-            'esc': 'Escape',
-            'escape': 'Escape',
-            'return': 'Return',
-            'enter': 'Return',
-            'space': 'space',
-        }
-        return mapping.get(key.lower(), key)
+    def __init__(self, key: str, callback):
+        super().__init__(daemon=True)
+        self._key = key.lower()
+        self._callback = callback
+        self._listener = keyboard.Listener(on_press=self._on_press)
 
-    def make_click_through(self, window):
-        """Attempt to make the overlay ignore mouse events."""
+    def _on_press(self, key):
+        try:
+            name = key.char.lower() if hasattr(key, 'char') and key.char else key.name.lower()
+        except AttributeError:
+            name = ''
+        if name == self._key:
+            self._callback()
+
+    def run(self):
+        with self._listener:
+            self._listener.join()
+
+    def stop(self):
+        self._listener.stop()
+
+
+class HighlightBar(QtWidgets.QWidget):
+    def __init__(self, settings: Settings):
+        super().__init__(flags=QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+        self.settings = settings
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
+        self.resize(self.settings.width, self.settings.height)
+        self._timer = QtCore.QTimer(self, timeout=self.update_position)
+        self._timer.start(10)
+        self._color = self.settings.color
+
         if sys.platform.startswith('win'):
-            hwnd = window.winfo_id()
+            self._make_click_through_win()
+
+    def _make_click_through_win(self):
+        try:
+            import ctypes
+            from ctypes import wintypes
+            hwnd = int(self.winId())
             GWL_EXSTYLE = -20
             WS_EX_LAYERED = 0x00080000
             WS_EX_TRANSPARENT = 0x00000020
-            style = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
-            ctypes.windll.user32.SetWindowLongW(
-                hwnd, GWL_EXSTYLE, style | WS_EX_LAYERED | WS_EX_TRANSPARENT
-            )
-            # Ensure layering style uses the alpha set on the window
-            ctypes.windll.user32.SetLayeredWindowAttributes(
-                hwnd, 0, int(float(self.alpha_var.get()) * 255), 0x02
-            )
-        elif sys.platform == 'darwin':
-            try:
-                from ctypes import util
-                objc = ctypes.cdll.LoadLibrary(util.find_library('objc'))
-                objc.objc_getClass.restype = ctypes.c_void_p
-                objc.sel_registerName.restype = ctypes.c_void_p
-                objc.objc_msgSend.restype = ctypes.c_void_p
-                ns_window = ctypes.c_void_p(window.winfo_id())
-                sel = objc.sel_registerName(b'setIgnoresMouseEvents:')
-                objc.objc_msgSend(ns_window, sel, True)
-            except Exception:
-                pass
-        else:
-            try:
-                from ctypes import util
-                x11 = ctypes.cdll.LoadLibrary(util.find_library('X11'))
-                shape = ctypes.cdll.LoadLibrary(util.find_library('Xext'))
-                display = x11.XOpenDisplay(None)
-                if display:
-                    shape.XShapeCombineRegion(display, window.winfo_id(), 2, 0, 0, 0, 0)
-                    x11.XFlush(display)
-                    x11.XCloseDisplay(display)
-            except Exception:
-                pass
-
-    def choose_color(self):
-        color = colorchooser.askcolor(initialcolor=self.color_var.get())
-        if color[1]:
-            self.color_var.set(color[1])
-
-    def start(self):
-        if self.overlay is None:
-            self.overlay = tk.Toplevel(self.root)
-            self.overlay.overrideredirect(True)
-            self.overlay.attributes('-topmost', True)
-            self.overlay.attributes('-alpha', self.alpha_var.get())
-            self.overlay.configure(bg=self.color_var.get())
-            self.overlay.update_idletasks()
-            self.make_click_through(self.overlay)
-            self.overlay.protocol('WM_DELETE_WINDOW', self.stop)
-        else:
-            # reuse existing overlay with updated settings
-            self.overlay.configure(bg=self.color_var.get())
-            self.overlay.attributes('-alpha', self.alpha_var.get())
-        self.running = True
-        self.root.withdraw()
-        self.register_abort_key()
-        self.follow_mouse()
-
-    def register_abort_key(self):
-        key = self.abort_key_var.get().strip()
-        if not key:
-            key = 'Escape'
-        if keyboard:
-            if self.hotkey is not None:
-                try:
-                    keyboard.remove_hotkey(self.hotkey)
-                except Exception:
-                    pass
-            try:
-                self.hotkey = keyboard.add_hotkey(key, self.stop)
-                return
-            except Exception:
-                self.hotkey = None
-        # fall back to Tk event binding if global hotkey failed
-        tk_key = self._tk_keysym(key)
-        try:
-            self.overlay.bind_all(f'<{tk_key}>', self.stop)
-        except tk.TclError:
+            ctypes.windll.user32.SetWindowLongW(hwnd, GWL_EXSTYLE,
+                ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED | WS_EX_TRANSPARENT)
+            ctypes.windll.user32.SetLayeredWindowAttributes(hwnd, 0,
+                int(self.settings.alpha * 255), 0x02)
+        except Exception:
             pass
 
-    def stop(self, event=None):
-        self.running = False
-        if keyboard and self.hotkey is not None:
-            try:
-                keyboard.remove_hotkey(self.hotkey)
-            except Exception:
-                pass
+    def update_settings(self, settings: Settings):
+        self.settings = settings
+        self.resize(settings.width, settings.height)
+        self._color = settings.color
+
+    def update_position(self):
+        pos = QtGui.QCursor.pos()
+        y = pos.y() - self.settings.height // 2
+        self.move(0, y)
+        self.repaint()
+
+    def paintEvent(self, event):
+        p = QtGui.QPainter(self)
+        colour = QtGui.QColor(self._color)
+        colour.setAlphaF(self.settings.alpha)
+        p.fillRect(self.rect(), colour)
+        p.end()
+
+
+class SettingsDialog(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Line Highlighter Settings')
+        layout = QtWidgets.QFormLayout(self)
+
+        self.width_spin = QtWidgets.QSpinBox(value=800, minimum=10, maximum=10000)
+        self.height_spin = QtWidgets.QSpinBox(value=30, minimum=2, maximum=1000)
+        self.alpha_spin = QtWidgets.QDoubleSpinBox(value=0.3, minimum=0.05, maximum=1.0, singleStep=0.05)
+        self.color_btn = QtWidgets.QPushButton('Choose…')
+        self.key_edit = QtWidgets.QLineEdit('esc')
+        self.start_btn = QtWidgets.QPushButton('Start')
+
+        layout.addRow('Width:', self.width_spin)
+        layout.addRow('Height:', self.height_spin)
+        layout.addRow('Transparency:', self.alpha_spin)
+        layout.addRow('Color:', self.color_btn)
+        layout.addRow('Abort key:', self.key_edit)
+        layout.addRow(self.start_btn)
+
+        self.color = QtGui.QColor(255, 255, 0)
+        self.color_btn.clicked.connect(self.choose_color)
+
+    def choose_color(self):
+        col = QtWidgets.QColorDialog.getColor(self.color, self)
+        if col.isValid():
+            self.color = col
+
+    def get_settings(self) -> Settings:
+        colour = QtGui.QColor(self.color)
+        alpha = self.alpha_spin.value()
+        colour.setAlphaF(alpha)
+        return Settings(
+            width=self.width_spin.value(),
+            height=self.height_spin.value(),
+            alpha=alpha,
+            color=colour,
+            abort_key=self.key_edit.text() or 'esc',
+        )
+
+
+class Controller:
+    def __init__(self):
+        if QtWidgets is None:
+            raise SystemExit('PyQt5 is required to run this program.')
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.dialog = SettingsDialog()
+        self.overlay: HighlightBar | None = None
+        self.hotkey: HotkeyListener | None = None
+        self.dialog.start_btn.clicked.connect(self.start)
+        self.dialog.show()
+        sys.exit(self.app.exec_())
+
+    def start(self):
+        settings = self.dialog.get_settings()
+        if self.overlay is None:
+            self.overlay = HighlightBar(settings)
+        else:
+            self.overlay.update_settings(settings)
+        self.overlay.show()
+        self.dialog.hide()
+        if keyboard:
+            if self.hotkey:
+                self.hotkey.stop()
+            self.hotkey = HotkeyListener(settings.abort_key, self.stop)
+            self.hotkey.start()
+        else:
+            # fallback to QShortcut requiring focus
+            QtWidgets.QShortcut(QtGui.QKeySequence(settings.abort_key), self.overlay, self.stop)
+
+    def stop(self):
+        if self.hotkey:
+            self.hotkey.stop()
             self.hotkey = None
-        if self.overlay is not None:
-            try:
-                self.overlay.destroy()
-            finally:
-                self.overlay = None
-        self.root.deiconify()
+        if self.overlay:
+            self.overlay.hide()
+        self.dialog.show()
 
-    def on_close(self):
-        self.stop()
-        self.root.destroy()
-
-    def follow_mouse(self):
-        if not self.overlay or not self.running:
-            return
-        # use the root pointer position so it works even when the overlay
-        # ignores mouse events
-        y = self.root.winfo_pointery() - int(self.height_var.get()) // 2
-        geom = f"{int(self.width_var.get())}x{int(self.height_var.get())}+0+{y}"
-        self.overlay.geometry(geom)
-        self.overlay.configure(bg=self.color_var.get())
-        self.overlay.attributes('-alpha', float(self.alpha_var.get()))
-        self.overlay.lift()
-        if self.running:
-            self.overlay.after(10, self.follow_mouse)
 
 if __name__ == '__main__':
-    LineHighlighter()
-    tk.mainloop()
+    Controller()
