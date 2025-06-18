@@ -2,6 +2,10 @@ import tkinter as tk
 from tkinter import colorchooser
 import sys
 import ctypes
+try:
+    import keyboard  # type: ignore
+except Exception:
+    keyboard = None
 
 class LineHighlighter:
     def __init__(self):
@@ -13,6 +17,7 @@ class LineHighlighter:
         self.height_var = tk.IntVar(value=20)
         self.alpha_var = tk.DoubleVar(value=0.3)
         self.color_var = tk.StringVar(value='#ffff00')
+        self.abort_key_var = tk.StringVar(value='esc')
 
         tk.Label(self.root, text='Width:').pack()
         tk.Entry(self.root, textvariable=self.width_var).pack()
@@ -22,10 +27,15 @@ class LineHighlighter:
         tk.Entry(self.root, textvariable=self.alpha_var).pack()
         tk.Button(self.root, text='Choose Color',
                   command=self.choose_color).pack(pady=5)
+        tk.Label(self.root, text='Abort key:').pack()
+        tk.Entry(self.root, textvariable=self.abort_key_var).pack()
         tk.Button(self.root, text='Start',
                   command=self.start).pack(pady=5)
 
         self.overlay = None
+        self.running = False
+        self.hotkey = None
+        self.root.protocol('WM_DELETE_WINDOW', self.on_close)
 
     def make_click_through(self, window):
         """Attempt to make the overlay ignore mouse events."""
@@ -74,11 +84,48 @@ class LineHighlighter:
             self.overlay.attributes('-alpha', self.alpha_var.get())
             self.overlay.configure(bg=self.color_var.get())
             self.make_click_through(self.overlay)
+            self.overlay.protocol('WM_DELETE_WINDOW', self.stop)
+        self.running = True
         self.root.withdraw()
+        self.register_abort_key()
         self.follow_mouse()
 
+    def register_abort_key(self):
+        key = self.abort_key_var.get()
+        if keyboard:
+            if self.hotkey is not None:
+                try:
+                    keyboard.remove_hotkey(self.hotkey)
+                except Exception:
+                    pass
+            try:
+                self.hotkey = keyboard.add_hotkey(key, self.stop)
+            except Exception:
+                self.hotkey = None
+        else:
+            self.overlay.bind_all(f'<{key}>', self.stop)
+
+    def stop(self, event=None):
+        self.running = False
+        if keyboard and self.hotkey is not None:
+            try:
+                keyboard.remove_hotkey(self.hotkey)
+            except Exception:
+                pass
+            self.hotkey = None
+        if self.overlay is not None:
+            try:
+                self.overlay.destroy()
+            finally:
+                self.overlay = None
+        self.root.deiconify()
+
+    def on_close(self):
+        self.stop()
+        self.root.destroy()
+
     def follow_mouse(self):
-        if not self.overlay:
+        if not self.overlay or not self.running:
             return
         y = self.overlay.winfo_pointery() - int(self.height_var.get()) // 2
         geom = f"{int(self.width_var.get())}x{int(self.height_var.get())}+0+{y}"
@@ -86,7 +133,8 @@ class LineHighlighter:
         self.overlay.configure(bg=self.color_var.get())
         self.overlay.attributes('-alpha', float(self.alpha_var.get()))
         self.overlay.lift()
-        self.overlay.after(10, self.follow_mouse)
+        if self.running:
+            self.overlay.after(10, self.follow_mouse)
 
 if __name__ == '__main__':
     LineHighlighter()
