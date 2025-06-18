@@ -11,7 +11,8 @@ class LineHighlighter:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title('Line Highlighter Settings')
-        self.root.geometry('250x200')
+        # slightly larger settings window so all widgets are visible
+        self.root.geometry('300x250')
 
         self.width_var = tk.IntVar(value=self.root.winfo_screenwidth())
         self.height_var = tk.IntVar(value=20)
@@ -83,8 +84,13 @@ class LineHighlighter:
             self.overlay.attributes('-topmost', True)
             self.overlay.attributes('-alpha', self.alpha_var.get())
             self.overlay.configure(bg=self.color_var.get())
+            self.overlay.update_idletasks()
             self.make_click_through(self.overlay)
             self.overlay.protocol('WM_DELETE_WINDOW', self.stop)
+        else:
+            # reuse existing overlay with updated settings
+            self.overlay.configure(bg=self.color_var.get())
+            self.overlay.attributes('-alpha', self.alpha_var.get())
         self.running = True
         self.root.withdraw()
         self.register_abort_key()
@@ -100,10 +106,11 @@ class LineHighlighter:
                     pass
             try:
                 self.hotkey = keyboard.add_hotkey(key, self.stop)
+                return
             except Exception:
                 self.hotkey = None
-        else:
-            self.overlay.bind_all(f'<{key}>', self.stop)
+        # fall back to Tk event binding if global hotkey failed
+        self.overlay.bind_all(f'<{key}>', self.stop)
 
     def stop(self, event=None):
         self.running = False
@@ -127,7 +134,9 @@ class LineHighlighter:
     def follow_mouse(self):
         if not self.overlay or not self.running:
             return
-        y = self.overlay.winfo_pointery() - int(self.height_var.get()) // 2
+        # use the root pointer position so it works even when the overlay
+        # ignores mouse events
+        y = self.root.winfo_pointery() - int(self.height_var.get()) // 2
         geom = f"{int(self.width_var.get())}x{int(self.height_var.get())}+0+{y}"
         self.overlay.geometry(geom)
         self.overlay.configure(bg=self.color_var.get())
