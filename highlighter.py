@@ -1,10 +1,11 @@
 # coding: utf-8
-"""Cross-platform cursor-highlighting bar using PyQt5.
+"""Cross‑platform cursor‑highlighting bar using PyQt5.
 
-This script shows a translucent bar following the mouse cursor to help
-read long texts. A small settings dialog lets the user adjust width,
-height, transparency, colour and the abort shortcut. The bar ignores
-mouse events so windows underneath remain interactive.
+The application displays a translucent bar that follows the mouse
+pointer so readers can keep track of the current line.  A small settings
+window lets the user configure the bar's width, height, transparency,
+colour and the key used to abort.  The overlay ignores mouse events so
+windows below remain interactive.
 """
 
 import sys
@@ -62,13 +63,18 @@ class HighlightBar(QtWidgets.QWidget):
         self.settings = settings
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
-        self.resize(self.settings.width, self.settings.height)
+        screen_w = QtWidgets.QApplication.primaryScreen().size().width()
+        self.resize(min(self.settings.width, screen_w), self.settings.height)
         self._timer = QtCore.QTimer(self, timeout=self.update_position)
         self._timer.start(10)
         self._color = self.settings.color
 
         if sys.platform.startswith('win'):
             self._make_click_through_win()
+        elif sys.platform == 'darwin':
+            self._make_click_through_mac()
+        else:
+            self._make_click_through_x11()
 
     def _make_click_through_win(self):
         try:
@@ -85,9 +91,33 @@ class HighlightBar(QtWidgets.QWidget):
         except Exception:
             pass
 
+    def _make_click_through_mac(self):
+        try:
+            import ctypes
+            import ctypes.util
+            objc = ctypes.cdll.LoadLibrary(ctypes.util.find_library('objc'))
+            objc.objc_getClass.restype = ctypes.c_void_p
+            ns_window = ctypes.c_void_p(int(self.winId()))
+            sel = objc.sel_registerName(b'setIgnoresMouseEvents:')
+            objc.objc_msgSend.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_bool]
+            objc.objc_msgSend(ns_window, sel, True)
+        except Exception:
+            pass
+
+    def _make_click_through_x11(self):
+        try:
+            from PyQt5 import QtX11Extras  # type: ignore
+            display = QtX11Extras.QX11Info.display()
+            from ctypes import cdll, c_ulong
+            x11 = cdll.LoadLibrary('libX11.so')
+            x11.XShapeCombineRectangles(display, int(self.winId()), 2, 0, 0, None, 0, 0)
+        except Exception:
+            pass
+
     def update_settings(self, settings: Settings):
         self.settings = settings
-        self.resize(settings.width, settings.height)
+        screen_w = QtWidgets.QApplication.primaryScreen().size().width()
+        self.resize(min(settings.width, screen_w), settings.height)
         self._color = settings.color
 
     def update_position(self):
@@ -109,12 +139,17 @@ class SettingsDialog(QtWidgets.QWidget):
         super().__init__()
         self.setWindowTitle('Line Highlighter Settings')
         layout = QtWidgets.QFormLayout(self)
+        self.setFixedWidth(250)
 
         self.width_spin = QtWidgets.QSpinBox(value=800, minimum=10, maximum=10000)
+        self.width_spin.setMaximumWidth(80)
         self.height_spin = QtWidgets.QSpinBox(value=30, minimum=2, maximum=1000)
+        self.height_spin.setMaximumWidth(80)
         self.alpha_spin = QtWidgets.QDoubleSpinBox(value=0.3, minimum=0.05, maximum=1.0, singleStep=0.05)
+        self.alpha_spin.setMaximumWidth(80)
         self.color_btn = QtWidgets.QPushButton('Choose…')
         self.key_edit = QtWidgets.QLineEdit('esc')
+        self.key_edit.setMaximumWidth(80)
         self.start_btn = QtWidgets.QPushButton('Start')
 
         layout.addRow('Width:', self.width_spin)
@@ -164,6 +199,8 @@ class Controller:
         else:
             self.overlay.update_settings(settings)
         self.overlay.show()
+        self.overlay.raise_()
+        QtWidgets.QApplication.processEvents()
         self.dialog.hide()
         if keyboard:
             if self.hotkey:
@@ -179,7 +216,7 @@ class Controller:
             self.hotkey.stop()
             self.hotkey = None
         if self.overlay:
-            self.overlay.hide()
+            self.overlay.close()
         self.dialog.show()
 
 
