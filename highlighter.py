@@ -69,17 +69,11 @@ class HighlightBar(QtWidgets.QWidget):
         self._timer.start(10)
         self._color = self.settings.color
 
-        if sys.platform.startswith('win'):
-            self._make_click_through_win()
-        elif sys.platform == 'darwin':
-            self._make_click_through_mac()
-        else:
-            self._make_click_through_x11()
+        self._click_through_applied = False
 
     def _make_click_through_win(self):
         try:
             import ctypes
-            from ctypes import wintypes
             hwnd = int(self.winId())
             GWL_EXSTYLE = -20
             WS_EX_LAYERED = 0x00080000
@@ -104,15 +98,16 @@ class HighlightBar(QtWidgets.QWidget):
         except Exception:
             pass
 
-    def _make_click_through_x11(self):
-        try:
-            from PyQt5 import QtX11Extras  # type: ignore
-            display = QtX11Extras.QX11Info.display()
-            from ctypes import cdll, c_ulong
-            x11 = cdll.LoadLibrary('libX11.so')
-            x11.XShapeCombineRectangles(display, int(self.winId()), 2, 0, 0, None, 0, 0)
-        except Exception:
-            pass
+    def apply_click_through(self):
+        if self._click_through_applied:
+            return
+        if sys.platform.startswith('win'):
+            self._make_click_through_win()
+        elif sys.platform == 'darwin':
+            self._make_click_through_mac()
+        # Linux typically works with WA_TransparentForMouseEvents only
+        self._click_through_applied = True
+
 
     def update_settings(self, settings: Settings):
         self.settings = settings
@@ -201,6 +196,7 @@ class Controller:
         self.overlay.show()
         self.overlay.raise_()
         QtWidgets.QApplication.processEvents()
+        self.overlay.apply_click_through()
         self.dialog.hide()
         if keyboard:
             if self.hotkey:
@@ -217,6 +213,7 @@ class Controller:
             self.hotkey = None
         if self.overlay:
             self.overlay.close()
+            self.overlay = None
         self.dialog.show()
 
 
