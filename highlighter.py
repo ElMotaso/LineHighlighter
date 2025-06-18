@@ -18,7 +18,8 @@ class LineHighlighter:
         self.height_var = tk.IntVar(value=20)
         self.alpha_var = tk.DoubleVar(value=0.3)
         self.color_var = tk.StringVar(value='#ffff00')
-        self.abort_key_var = tk.StringVar(value='esc')
+        # use standard Tk key name for escape so binding works
+        self.abort_key_var = tk.StringVar(value='Escape')
 
         tk.Label(self.root, text='Width:').pack()
         tk.Entry(self.root, textvariable=self.width_var).pack()
@@ -37,6 +38,16 @@ class LineHighlighter:
         self.running = False
         self.hotkey = None
         self.root.protocol('WM_DELETE_WINDOW', self.on_close)
+
+    def _tk_keysym(self, key: str) -> str:
+        mapping = {
+            'esc': 'Escape',
+            'escape': 'Escape',
+            'return': 'Return',
+            'enter': 'Return',
+            'space': 'space',
+        }
+        return mapping.get(key.lower(), key)
 
     def make_click_through(self, window):
         """Attempt to make the overlay ignore mouse events."""
@@ -103,7 +114,9 @@ class LineHighlighter:
         self.follow_mouse()
 
     def register_abort_key(self):
-        key = self.abort_key_var.get()
+        key = self.abort_key_var.get().strip()
+        if not key:
+            key = 'Escape'
         if keyboard:
             if self.hotkey is not None:
                 try:
@@ -116,7 +129,11 @@ class LineHighlighter:
             except Exception:
                 self.hotkey = None
         # fall back to Tk event binding if global hotkey failed
-        self.overlay.bind_all(f'<{key}>', self.stop)
+        tk_key = self._tk_keysym(key)
+        try:
+            self.overlay.bind_all(f'<{tk_key}>', self.stop)
+        except tk.TclError:
+            pass
 
     def stop(self, event=None):
         self.running = False
