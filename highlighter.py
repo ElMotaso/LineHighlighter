@@ -182,8 +182,6 @@ class SettingsDialog(QtWidgets.QWidget):
             height = 30
             alpha = 0.3
 
-        # Create a status bar for information
-        self.status_label = QtWidgets.QLabel("")
 
         # Create width spinner with screen width as maximum
         self.width_spin = QtWidgets.QSpinBox()
@@ -211,24 +209,17 @@ class SettingsDialog(QtWidgets.QWidget):
         # Add form layout to main layout
         layout.addLayout(form_layout)
 
-        # Create button layout with Apply and Toggle buttons
+        # Create button layout with just the toggle button
         button_layout = QtWidgets.QHBoxLayout()
-
-        # Apply button
-        self.apply_btn = QtWidgets.QPushButton('Apply Settings')
 
         # Toggle button with initial text "Start"
         self.toggle_btn = QtWidgets.QPushButton('Start Highlighter')
 
-        # Add buttons to layout
-        button_layout.addWidget(self.apply_btn)
+        # Add button to layout
         button_layout.addWidget(self.toggle_btn)
 
         # Add button layout to main layout
         layout.addLayout(button_layout)
-
-        # Add status label
-        layout.addWidget(self.status_label)
 
         # Set a reasonable fixed width for the dialog
         self.setFixedWidth(300)
@@ -239,17 +230,6 @@ class SettingsDialog(QtWidgets.QWidget):
 
         # Keep track of highlighter state
         self.highlighter_active = False
-
-        # Display screen info
-        self.update_status_info(screen_w)
-
-    def update_status_info(self, screen_width=None):
-        """Update status information about current settings"""
-        if screen_width is None:
-            screen_width = QtWidgets.QApplication.primaryScreen().size().width()
-
-        status = f"Screen width: {screen_width}px"
-        self.status_label.setText(status)
 
     def clearWindowSettings(self):
         """Clear any stored window geometry/state from QSettings"""
@@ -296,8 +276,7 @@ class Controller:
         self.dialog = SettingsDialog()
         self.overlay: HighlightBar | None = None
 
-        # Connect the buttons
-        self.dialog.apply_btn.clicked.connect(self.apply_settings)
+        # Connect the toggle button
         self.dialog.toggle_btn.clicked.connect(self.toggle_highlighter)
         self.dialog.settings_changed.connect(self.live_update_settings)
 
@@ -305,17 +284,6 @@ class Controller:
         self.dialog.show()
         sys.exit(self.app.exec_())
 
-    def apply_settings(self):
-        """Apply current settings to the highlighter without toggling it"""
-        settings = self.dialog.get_settings()
-        self.dialog.save_settings(settings)
-
-        # Update status with new settings
-        self.dialog.status_label.setText(f"Applied: Width={settings.width}px, Height={settings.height}px")
-
-        # If highlighter is active, update its settings
-        if self.overlay is not None:
-            self.overlay.update_settings(settings)
 
     def live_update_settings(self):
         """Update overlay immediately when settings change"""
@@ -351,17 +319,12 @@ class Controller:
         QtWidgets.QApplication.processEvents()
         self.overlay.apply_click_through()
 
-        # Update status
-        screen_w = QtWidgets.QApplication.primaryScreen().size().width()
-        actual_width = min(settings.width, screen_w)
-        self.dialog.status_label.setText(f"Highlighter active: {actual_width}x{settings.height}px")
 
     def stop_highlighter(self):
         """Stop the highlighter"""
         if self.overlay:
             self.overlay.close()
             self.overlay = None
-            self.dialog.status_label.setText("Highlighter stopped")
 
 
 if __name__ == '__main__':
