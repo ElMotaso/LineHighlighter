@@ -132,7 +132,10 @@ class HighlightBar(QtWidgets.QWidget):
             print(f"Error updating Windows alpha: {e}")
             pass
 
+    # This method needs to be un-indented to become a class method
     def update_settings(self, settings: Settings):
+        print(f"HighlightBar.update_settings called with color: {settings.color.name()}")
+        old_color = self._color
         self.settings = settings
         screen_w = QtWidgets.QApplication.primaryScreen().size().width()
 
@@ -142,12 +145,22 @@ class HighlightBar(QtWidgets.QWidget):
 
         # Apply as fixed size
         self.setFixedSize(self._desired_width, self._desired_height)
-        self._color = settings.color
+
+        # Create a completely new QColor to avoid reference issues
+        self._color = QtGui.QColor(
+            settings.color.red(),
+            settings.color.green(),
+            settings.color.blue()
+        )
+        print(f"Color changed from {old_color.name()} to {self._color.name()}")
 
         if sys.platform.startswith('win') and self._click_through_applied:
             self._update_alpha_win()
 
-        self.repaint()
+        # Force a complete repaint
+        self.update()
+        # Process any pending events immediately
+        QtWidgets.QApplication.processEvents()
 
     def update_position(self):
         pos = QtGui.QCursor.pos()
@@ -157,7 +170,9 @@ class HighlightBar(QtWidgets.QWidget):
 
     def paintEvent(self, event):
         p = QtGui.QPainter(self)
-        colour = QtGui.QColor(self._color)
+        # Create a new color object directly from RGBA values to avoid any reference issues
+        r, g, b = self._color.red(), self._color.green(), self._color.blue()
+        colour = QtGui.QColor(r, g, b)
         colour.setAlphaF(self.settings.alpha)
         p.fillRect(self.rect(), colour)
         p.end()
@@ -265,14 +280,33 @@ class SettingsDialog(QtWidgets.QWidget):
 
     def choose_color(self):
         dialog = QtWidgets.QColorDialog(self.color, self)
-        dialog.currentColorChanged.connect(self._update_color)
+        # For preview changes (don't emit settings_changed yet)
+        dialog.currentColorChanged.connect(self._preview_color)
+        # For final selection when OK is clicked
         dialog.colorSelected.connect(self._update_color)
         dialog.exec_()
 
-    def _update_color(self, col: QtGui.QColor):
+    def _preview_color(self, col: QtGui.QColor):
+        # Only update the temporary preview, don't emit signals
         if col.isValid():
             self.color = col
+            # Optional: You could update a preview element here if needed
+
+    def _update_color(self, col: QtGui.QColor):
+        if col.isValid():
+            # Create a new color object to avoid reference issues
+            self.color = QtGui.QColor(col.red(), col.green(), col.blue())
+            print(f"Color changed to: R={col.red()}, G={col.green()}, B={col.blue()}")
+
+            # Signal that settings changed
             self.settings_changed.emit()
+
+            # Optionally, inform user if highlighter isn't running
+            from_controller = hasattr(self, 'parent') and isinstance(self.parent(), Controller)
+            if not from_controller and not self.highlighter_active:
+                print("Note: Color will be applied when highlighter is started")
+
+
 
     def get_settings(self) -> Settings:
         colour = QtGui.QColor(self.color)
@@ -312,13 +346,61 @@ class Controller:
         self.dialog.show()
         sys.exit(self.app.exec_())
 
-
     def live_update_settings(self):
         """Update overlay immediately when settings change"""
+        print("live_update_settings called")
         if self.overlay is not None:
             settings = self.dialog.get_settings()
-            self.overlay.update_settings(settings)
-            self.dialog.save_settings(settings)
+            print(f"Updating overlay with settings: color={settings.color.name()}")
+            
+            # Get current color of the overlay for comparison
+            current_color = self.overlay._color.name()
+            new_color = settings.color.name()
+            
+            # If color changed, recreate the highlighter
+            if current_color != new_color:
+                print(f"Color changed from {current_color} to {new_color} - recreating highlighter")
+                # Remember position
+                old_pos = self.overlay.pos()
+                
+                # Close the existing overlay
+                self.overlay.close()
+                
+                # Create a new one with the new settings
+                self.overlay = HighlightBar(settings)
+                
+                # Restore position and show it
+                self.overlay.move(old_pos)
+                self.overlay.show()
+                self.overlay.raise_()
+                QtWidgets.QApplication.processEvents()
+                self.overlay.apply_click_through()
+            else:
+                # For non-color changes, just update settings
+                self.overlay.update_settings(settings)
+        
+        # Save the settings
+        self.dialog.save_settings(settings)
+
+        # Add this method to the Controller class
+    def update_highlighter_color(self, color):
+        """Safely update just the highlighter color"""
+        if self.overlay is not None:
+            try:
+                # Create a new settings object with the new color
+                current_settings = self.dialog.get_settings()
+                new_settings = Settings(
+                    width=current_settings.width,
+                    height=current_settings.height,
+                    alpha=current_settings.alpha,
+                    color=color
+                )
+                # Update the overlay with the new settings
+                self.overlay.update_settings(new_settings)
+                # Save the settings
+                self.dialog.save_settings(new_settings)
+            except Exception as e:
+                print(f"Error updating color: {e}")
 
     def toggle_highlighter(self):
         """Toggle the highlighter on/off"""
