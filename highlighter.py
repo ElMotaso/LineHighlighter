@@ -147,6 +147,8 @@ class HighlightBar(QtWidgets.QWidget):
 
 
 class SettingsDialog(QtWidgets.QWidget):
+    settings_changed = QtCore.pyqtSignal()
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Line Highlighter Settings')
@@ -194,6 +196,11 @@ class SettingsDialog(QtWidgets.QWidget):
         self.alpha_spin = QtWidgets.QDoubleSpinBox(value=alpha, minimum=0.05, maximum=1.0, singleStep=0.05)
         self.alpha_spin.setMaximumWidth(80)
         self.color_btn = QtWidgets.QPushButton('Choose…')
+
+        # Emit signal when any setting changes
+        self.width_spin.valueChanged.connect(self.settings_changed.emit)
+        self.height_spin.valueChanged.connect(self.settings_changed.emit)
+        self.alpha_spin.valueChanged.connect(self.settings_changed.emit)
 
         # Add fields to form layout
         form_layout.addRow('Width:', self.width_spin)
@@ -257,6 +264,7 @@ class SettingsDialog(QtWidgets.QWidget):
         col = QtWidgets.QColorDialog.getColor(self.color, self)
         if col.isValid():
             self.color = col
+            self.settings_changed.emit()
 
     def get_settings(self) -> Settings:
         colour = QtGui.QColor(self.color)
@@ -291,6 +299,7 @@ class Controller:
         # Connect the buttons
         self.dialog.apply_btn.clicked.connect(self.apply_settings)
         self.dialog.toggle_btn.clicked.connect(self.toggle_highlighter)
+        self.dialog.settings_changed.connect(self.live_update_settings)
 
         # Show the dialog
         self.dialog.show()
@@ -307,6 +316,13 @@ class Controller:
         # If highlighter is active, update its settings
         if self.overlay is not None:
             self.overlay.update_settings(settings)
+
+    def live_update_settings(self):
+        """Update overlay immediately when settings change"""
+        if self.overlay is not None:
+            settings = self.dialog.get_settings()
+            self.overlay.update_settings(settings)
+            self.dialog.save_settings(settings)
 
     def toggle_highlighter(self):
         """Toggle the highlighter on/off"""
