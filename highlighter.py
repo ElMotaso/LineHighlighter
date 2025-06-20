@@ -120,7 +120,22 @@ class HighlightBar(QtWidgets.QWidget):
         # Linux typically works with WA_TransparentForMouseEvents only
         self._click_through_applied = True
 
+    def _update_alpha_win(self):
+        """Update transparency on Windows when settings change."""
+        try:
+            import ctypes
+            hwnd = int(self.winId())
+            ctypes.windll.user32.SetLayeredWindowAttributes(
+                hwnd, 0, int(self.settings.alpha * 255), 0x02
+            )
+        except Exception as e:  # pragma: no cover - platform specific
+            print(f"Error updating Windows alpha: {e}")
+            pass
+
+    # This method needs to be un-indented to become a class method
     def update_settings(self, settings: Settings):
+        print(f"HighlightBar.update_settings called with color: {settings.color.name()}")
+        old_color = self._color
         self.settings = settings
         screen_w = QtWidgets.QApplication.primaryScreen().size().width()
 
@@ -130,7 +145,22 @@ class HighlightBar(QtWidgets.QWidget):
 
         # Apply as fixed size
         self.setFixedSize(self._desired_width, self._desired_height)
-        self._color = settings.color
+
+        # Create a completely new QColor to avoid reference issues
+        self._color = QtGui.QColor(
+            settings.color.red(),
+            settings.color.green(),
+            settings.color.blue()
+        )
+        print(f"Color changed from {old_color.name()} to {self._color.name()}")
+
+        if sys.platform.startswith('win') and self._click_through_applied:
+            self._update_alpha_win()
+
+        # Force a complete repaint
+        self.update()
+        # Process any pending events immediately
+        QtWidgets.QApplication.processEvents()
 
     def update_position(self):
         pos = QtGui.QCursor.pos()
@@ -140,13 +170,17 @@ class HighlightBar(QtWidgets.QWidget):
 
     def paintEvent(self, event):
         p = QtGui.QPainter(self)
-        colour = QtGui.QColor(self._color)
+        # Create a new color object directly from RGBA values to avoid any reference issues
+        r, g, b = self._color.red(), self._color.green(), self._color.blue()
+        colour = QtGui.QColor(r, g, b)
         colour.setAlphaF(self.settings.alpha)
         p.fillRect(self.rect(), colour)
         p.end()
 
 
 class SettingsDialog(QtWidgets.QWidget):
+    settings_changed = QtCore.pyqtSignal()
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Line Highlighter Settings')
@@ -180,8 +214,6 @@ class SettingsDialog(QtWidgets.QWidget):
             height = 30
             alpha = 0.3
 
-        # Create a status bar for information
-        self.status_label = QtWidgets.QLabel("")
 
         # Create width spinner with screen width as maximum
         self.width_spin = QtWidgets.QSpinBox()
@@ -195,6 +227,17 @@ class SettingsDialog(QtWidgets.QWidget):
         self.alpha_spin.setMaximumWidth(80)
         self.color_btn = QtWidgets.QPushButton('Choose…')
 
+        # Emit signal when any setting changes
+        self.width_spin.valueChanged.connect(
+            lambda _=None: self.settings_changed.emit()
+        )
+        self.height_spin.valueChanged.connect(
+            lambda _=None: self.settings_changed.emit()
+        )
+        self.alpha_spin.valueChanged.connect(
+            lambda _=None: self.settings_changed.emit()
+        )
+
         # Add fields to form layout
         form_layout.addRow('Width:', self.width_spin)
         form_layout.addRow('Height:', self.height_spin)
@@ -204,24 +247,17 @@ class SettingsDialog(QtWidgets.QWidget):
         # Add form layout to main layout
         layout.addLayout(form_layout)
 
-        # Create button layout with Apply and Toggle buttons
+        # Create button layout with just the toggle button
         button_layout = QtWidgets.QHBoxLayout()
-
-        # Apply button
-        self.apply_btn = QtWidgets.QPushButton('Apply Settings')
 
         # Toggle button with initial text "Start"
         self.toggle_btn = QtWidgets.QPushButton('Start Highlighter')
 
-        # Add buttons to layout
-        button_layout.addWidget(self.apply_btn)
+        # Add button to layout
         button_layout.addWidget(self.toggle_btn)
 
         # Add button layout to main layout
         layout.addLayout(button_layout)
-
-        # Add status label
-        layout.addWidget(self.status_label)
 
         # Set a reasonable fixed width for the dialog
         self.setFixedWidth(300)
@@ -233,17 +269,6 @@ class SettingsDialog(QtWidgets.QWidget):
         # Keep track of highlighter state
         self.highlighter_active = False
 
-        # Display screen info
-        self.update_status_info(screen_w)
-
-    def update_status_info(self, screen_width=None):
-        """Update status information about current settings"""
-        if screen_width is None:
-            screen_width = QtWidgets.QApplication.primaryScreen().size().width()
-
-        status = f"Screen width: {screen_width}px"
-        self.status_label.setText(status)
-
     def clearWindowSettings(self):
         """Clear any stored window geometry/state from QSettings"""
         self.settings.remove("geometry")
@@ -254,9 +279,51 @@ class SettingsDialog(QtWidgets.QWidget):
         self.settings.sync()
 
     def choose_color(self):
-        col = QtWidgets.QColorDialog.getColor(self.color, self)
+        dialog = QtWidgets.QColorDialog(self.color, self)
+        # For live preview while using the color picker
+        dialog.currentColorChanged.connect(self._preview_color_live)
+        # For final selection when OK is clicked
+        dialog.colorSelected.connect(self._update_color)
+
+        # Store original color in case user cancels
+        self._original_color = QtGui.QColor(self.color)
+
+        # Execute dialog
+        result = dialog.exec_()
+
+        # If canceled, restore original color
+        if not result:
+            self.color = self._original_color
+            self.settings_changed.emit()  # Restore the original color in the overlay
+
+    def _preview_color(self, col: QtGui.QColor):
+        """No longer needed as we're using _preview_color_live instead"""
+        pass
+
+    def _preview_color_live(self, col: QtGui.QColor):
+        """Update color in real-time while in color picker"""
         if col.isValid():
-            self.color = col
+            # Temporarily update the color
+            self.color = QtGui.QColor(col.red(), col.green(), col.blue())
+
+            # Signal that settings changed to update the highlighter immediately
+            self.settings_changed.emit()
+    
+    def _update_color(self, col: QtGui.QColor):
+        if col.isValid():
+            # Create a new color object to avoid reference issues
+            self.color = QtGui.QColor(col.red(), col.green(), col.blue())
+            print(f"Color changed to: R={col.red()}, G={col.green()}, B={col.blue()}")
+
+            # Signal that settings changed
+            self.settings_changed.emit()
+
+            # Optionally, inform user if highlighter isn't running
+            from_controller = hasattr(self, 'parent') and isinstance(self.parent(), Controller)
+            if not from_controller and not self.highlighter_active:
+                print("Note: Color will be applied when highlighter is started")
+
+
 
     def get_settings(self) -> Settings:
         colour = QtGui.QColor(self.color)
@@ -288,25 +355,69 @@ class Controller:
         self.dialog = SettingsDialog()
         self.overlay: HighlightBar | None = None
 
-        # Connect the buttons
-        self.dialog.apply_btn.clicked.connect(self.apply_settings)
+        # Connect the toggle button
         self.dialog.toggle_btn.clicked.connect(self.toggle_highlighter)
+        self.dialog.settings_changed.connect(self.live_update_settings)
 
         # Show the dialog
         self.dialog.show()
         sys.exit(self.app.exec_())
 
-    def apply_settings(self):
-        """Apply current settings to the highlighter without toggling it"""
-        settings = self.dialog.get_settings()
+    def live_update_settings(self):
+        """Update overlay immediately when settings change"""
+        print("live_update_settings called")
+        if self.overlay is not None:
+            settings = self.dialog.get_settings()
+            print(f"Updating overlay with settings: color={settings.color.name()}")
+            
+            # Get current color of the overlay for comparison
+            current_color = self.overlay._color.name()
+            new_color = settings.color.name()
+            
+            # If color changed, recreate the highlighter
+            if current_color != new_color:
+                print(f"Color changed from {current_color} to {new_color} - recreating highlighter")
+                # Remember position
+                old_pos = self.overlay.pos()
+                
+                # Close the existing overlay
+                self.overlay.close()
+                
+                # Create a new one with the new settings
+                self.overlay = HighlightBar(settings)
+                
+                # Restore position and show it
+                self.overlay.move(old_pos)
+                self.overlay.show()
+                self.overlay.raise_()
+                QtWidgets.QApplication.processEvents()
+                self.overlay.apply_click_through()
+            else:
+                # For non-color changes, just update settings
+                self.overlay.update_settings(settings)
+        
+        # Save the settings
         self.dialog.save_settings(settings)
 
-        # Update status with new settings
-        self.dialog.status_label.setText(f"Applied: Width={settings.width}px, Height={settings.height}px")
-
-        # If highlighter is active, update its settings
+        # Add this method to the Controller class
+    def update_highlighter_color(self, color):
+        """Safely update just the highlighter color"""
         if self.overlay is not None:
-            self.overlay.update_settings(settings)
+            try:
+                # Create a new settings object with the new color
+                current_settings = self.dialog.get_settings()
+                new_settings = Settings(
+                    width=current_settings.width,
+                    height=current_settings.height,
+                    alpha=current_settings.alpha,
+                    color=color
+                )
+                # Update the overlay with the new settings
+                self.overlay.update_settings(new_settings)
+                # Save the settings
+                self.dialog.save_settings(new_settings)
+            except Exception as e:
+                print(f"Error updating color: {e}")
 
     def toggle_highlighter(self):
         """Toggle the highlighter on/off"""
@@ -335,17 +446,12 @@ class Controller:
         QtWidgets.QApplication.processEvents()
         self.overlay.apply_click_through()
 
-        # Update status
-        screen_w = QtWidgets.QApplication.primaryScreen().size().width()
-        actual_width = min(settings.width, screen_w)
-        self.dialog.status_label.setText(f"Highlighter active: {actual_width}x{settings.height}px")
 
     def stop_highlighter(self):
         """Stop the highlighter"""
         if self.overlay:
             self.overlay.close()
             self.overlay = None
-            self.dialog.status_label.setText("Highlighter stopped")
 
 
 if __name__ == '__main__':
