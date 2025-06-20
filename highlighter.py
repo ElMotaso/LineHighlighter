@@ -63,7 +63,10 @@ class HighlightBar(QtWidgets.QWidget):
         self.settings = settings
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
-        screen_w = QtWidgets.QApplication.primaryScreen().size().width()
+        cursor_screen = QtWidgets.QApplication.screenAt(QtGui.QCursor.pos())
+        screen_w = (cursor_screen.geometry().width()
+                    if cursor_screen is not None
+                    else QtWidgets.QApplication.primaryScreen().size().width())
 
         # Force the width explicitly, but respect the user's setting if possible
         self._desired_width = min(self.settings.width, screen_w)
@@ -137,13 +140,16 @@ class HighlightBar(QtWidgets.QWidget):
         print(f"HighlightBar.update_settings called with color: {settings.color.name()}")
         old_color = self._color
         self.settings = settings
-        screen_w = QtWidgets.QApplication.primaryScreen().size().width()
+        screen = QtWidgets.QApplication.screenAt(QtGui.QCursor.pos())
+        screen_w = (screen.geometry().width()
+                     if screen is not None
+                     else QtWidgets.QApplication.primaryScreen().size().width())
 
-        # Update desired dimensions, but respect screen width
+        # Update desired dimensions; width will be clamped in update_position
         self._desired_width = min(settings.width, screen_w)
         self._desired_height = settings.height
 
-        # Apply as fixed size
+        # Apply as fixed size immediately
         self.setFixedSize(self._desired_width, self._desired_height)
 
         # Create a completely new QColor to avoid reference issues
@@ -164,8 +170,21 @@ class HighlightBar(QtWidgets.QWidget):
 
     def update_position(self):
         pos = QtGui.QCursor.pos()
+        screen = QtWidgets.QApplication.screenAt(pos)
+        if screen is not None:
+            geo = screen.geometry()
+            # Adjust width for the current screen
+            screen_w = geo.width()
+            new_width = min(self.settings.width, screen_w)
+            if new_width != self._desired_width:
+                self._desired_width = new_width
+                self.setFixedSize(self._desired_width, self._desired_height)
+            x = geo.x()
+        else:
+            # Fallback to primary screen origin
+            x = 0
         y = pos.y() - self._desired_height // 2
-        self.move(0, y)
+        self.move(x, y)
         self.repaint()
 
     def paintEvent(self, event):
