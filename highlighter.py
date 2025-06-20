@@ -258,7 +258,12 @@ class SettingsDialog(QtWidgets.QWidget):
         self.settings.sync()
 
     def choose_color(self):
-        col = QtWidgets.QColorDialog.getColor(self.color, self)
+        dialog = QtWidgets.QColorDialog(self.color, self)
+        dialog.currentColorChanged.connect(self._update_color)
+        if dialog.exec_() == QtWidgets.QDialog.Accepted:
+            self._update_color(dialog.currentColor())
+
+    def _update_color(self, col: QtGui.QColor):
         if col.isValid():
             self.color = col
             self.settings_changed.emit()
