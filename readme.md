@@ -6,4 +6,5 @@ if on other platform:
 this will create the standalone for your platform hopefully (not tested)
 if you are a good boy you create a pull request for this repo so that i dont have to build the app on all platforms
 
-Settings change immediately; there is no longer an Apply button.
+Settings change immediately; adjustments to width, size, transparency or colour
+update the bar instantly.

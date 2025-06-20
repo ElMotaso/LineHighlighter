@@ -120,6 +120,18 @@ class HighlightBar(QtWidgets.QWidget):
         # Linux typically works with WA_TransparentForMouseEvents only
         self._click_through_applied = True
 
+    def _update_alpha_win(self):
+        """Update transparency on Windows when settings change."""
+        try:
+            import ctypes
+            hwnd = int(self.winId())
+            ctypes.windll.user32.SetLayeredWindowAttributes(
+                hwnd, 0, int(self.settings.alpha * 255), 0x02
+            )
+        except Exception as e:  # pragma: no cover - platform specific
+            print(f"Error updating Windows alpha: {e}")
+            pass
+
     def update_settings(self, settings: Settings):
         self.settings = settings
         screen_w = QtWidgets.QApplication.primaryScreen().size().width()
@@ -131,6 +143,11 @@ class HighlightBar(QtWidgets.QWidget):
         # Apply as fixed size
         self.setFixedSize(self._desired_width, self._desired_height)
         self._color = settings.color
+
+        if sys.platform.startswith('win') and self._click_through_applied:
+            self._update_alpha_win()
+
+        self.repaint()
 
     def update_position(self):
         pos = QtGui.QCursor.pos()
