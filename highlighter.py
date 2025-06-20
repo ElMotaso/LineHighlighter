@@ -213,9 +213,15 @@ class SettingsDialog(QtWidgets.QWidget):
         self.color_btn = QtWidgets.QPushButton('Choose…')
 
         # Emit signal when any setting changes
-        self.width_spin.valueChanged.connect(self.settings_changed.emit)
-        self.height_spin.valueChanged.connect(self.settings_changed.emit)
-        self.alpha_spin.valueChanged.connect(self.settings_changed.emit)
+        self.width_spin.valueChanged.connect(
+            lambda _=None: self.settings_changed.emit()
+        )
+        self.height_spin.valueChanged.connect(
+            lambda _=None: self.settings_changed.emit()
+        )
+        self.alpha_spin.valueChanged.connect(
+            lambda _=None: self.settings_changed.emit()
+        )
 
         # Add fields to form layout
         form_layout.addRow('Width:', self.width_spin)
