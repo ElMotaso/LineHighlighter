@@ -137,7 +137,6 @@ class HighlightBar(QtWidgets.QWidget):
 
     # This method needs to be un-indented to become a class method
     def update_settings(self, settings: Settings):
-        print(f"HighlightBar.update_settings called with color: {settings.color.name()}")
         old_color = self._color
         self.settings = settings
         screen = QtWidgets.QApplication.screenAt(QtGui.QCursor.pos())
@@ -158,7 +157,6 @@ class HighlightBar(QtWidgets.QWidget):
             settings.color.green(),
             settings.color.blue()
         )
-        print(f"Color changed from {old_color.name()} to {self._color.name()}")
 
         if sys.platform.startswith('win') and self._click_through_applied:
             self._update_alpha_win()
@@ -332,15 +330,12 @@ class SettingsDialog(QtWidgets.QWidget):
         if col.isValid():
             # Create a new color object to avoid reference issues
             self.color = QtGui.QColor(col.red(), col.green(), col.blue())
-            print(f"Color changed to: R={col.red()}, G={col.green()}, B={col.blue()}")
 
             # Signal that settings changed
             self.settings_changed.emit()
 
             # Optionally, inform user if highlighter isn't running
             from_controller = hasattr(self, 'parent') and isinstance(self.parent(), Controller)
-            if not from_controller and not self.highlighter_active:
-                print("Note: Color will be applied when highlighter is started")
 
 
 
@@ -384,10 +379,8 @@ class Controller:
 
     def live_update_settings(self):
         """Update overlay immediately when settings change"""
-        print("live_update_settings called")
         if self.overlay is not None:
             settings = self.dialog.get_settings()
-            print(f"Updating overlay with settings: color={settings.color.name()}")
             
             # Get current color of the overlay for comparison
             current_color = self.overlay._color.name()
@@ -395,7 +388,6 @@ class Controller:
             
             # If color changed, recreate the highlighter
             if current_color != new_color:
-                print(f"Color changed from {current_color} to {new_color} - recreating highlighter")
                 # Remember position
                 old_pos = self.overlay.pos()
                 
