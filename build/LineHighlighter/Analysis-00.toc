@@ -286,8 +286,8 @@
   ('stringprep',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\stringprep.py',
    'PYMODULE'),
-  ('_py_abc',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\_py_abc.py',
+  ('tracemalloc',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\tracemalloc.py',
    'PYMODULE'),
   ('subprocess',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\subprocess.py',
@@ -295,8 +295,8 @@
   ('signal',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\signal.py',
    'PYMODULE'),
-  ('tracemalloc',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\tracemalloc.py',
+  ('_py_abc',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\_py_abc.py',
    'PYMODULE'),
   ('ctypes.util',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\ctypes\\util.py',
@@ -449,49 +449,41 @@
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\styles\\qwindowsvistastyle.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
+  ('PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
+  ('PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\platforms\\qoffscreen.dll',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qoffscreen.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
    'U:\\Pcharm '
@@ -501,25 +493,29 @@
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwebp.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\opengl32sw.dll',
    '\\\\w16-fs\\fileserver\\999_User\\Moissl_Thomas\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\opengl32sw.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\bin\\d3dcompiler_47.dll',
-   '\\\\w16-fs\\fileserver\\999_User\\Moissl_Thomas\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\d3dcompiler_47.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\libGLESv2.dll',
    '\\\\w16-fs\\fileserver\\999_User\\Moissl_Thomas\\Pcharm '
@@ -528,6 +524,10 @@
   ('PyQt5\\Qt5\\bin\\libEGL.dll',
    '\\\\w16-fs\\fileserver\\999_User\\Moissl_Thomas\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\libEGL.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\d3dcompiler_47.dll',
+   '\\\\w16-fs\\fileserver\\999_User\\Moissl_Thomas\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\d3dcompiler_47.dll',
    'BINARY'),
   ('unicodedata.pyd',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\DLLs\\unicodedata.pyd',
@@ -572,99 +572,99 @@
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\QtGui.pyd',
    'EXTENSION'),
-  ('api-ms-win-crt-runtime-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-runtime-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-string-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-string-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-environment-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-environment-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-heap-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-heap-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-conio-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-time-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-time-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-process-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-process-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-locale-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-locale-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-math-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-math-l1-1-0.dll',
-   'BINARY'),
-  ('VCRUNTIME140.dll',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\VCRUNTIME140.dll',
-   'BINARY'),
   ('api-ms-win-crt-filesystem-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
    'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-filesystem-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-convert-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-convert-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-stdio-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
    'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-stdio-l1-1-0.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5Gui.dll',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Gui.dll',
+  ('api-ms-win-crt-process-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-process-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-math-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-math-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-conio-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-string-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-string-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-convert-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-convert-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-locale-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-locale-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-heap-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-heap-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-environment-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-environment-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-runtime-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-runtime-l1-1-0.dll',
+   'BINARY'),
+  ('VCRUNTIME140.dll',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\VCRUNTIME140.dll',
+   'BINARY'),
+  ('api-ms-win-crt-time-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-time-l1-1-0.dll',
+   'BINARY'),
+  ('VCRUNTIME140_1.dll',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\VCRUNTIME140_1.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Core.dll',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Core.dll',
    'BINARY'),
-  ('VCRUNTIME140_1.dll',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\VCRUNTIME140_1.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Widgets.dll',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Widgets.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5Svg.dll',
+  ('PyQt5\\Qt5\\bin\\Qt5Gui.dll',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Svg.dll',
-   'BINARY'),
-  ('api-ms-win-crt-utility-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-utility-l1-1-0.dll',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Gui.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Network.dll',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Network.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5DBus.dll',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5DBus.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5WebSockets.dll',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5WebSockets.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\MSVCP140.dll',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\MSVCP140.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Quick.dll',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Quick.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\MSVCP140.dll',
+  ('api-ms-win-crt-utility-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-crt-utility-l1-1-0.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\Qt5DBus.dll',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\MSVCP140.dll',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5DBus.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\Qt5Svg.dll',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Svg.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\VCRUNTIME140_1.dll',
    '\\\\w16-fs\\fileserver\\999_User\\Moissl_Thomas\\Pcharm '
@@ -699,73 +699,97 @@
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5QmlModels.dll',
    'BINARY'),
-  ('api-ms-win-core-console-l1-1-0.dll',
+  ('api-ms-win-core-util-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-console-l1-1-0.dll',
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-util-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-namedpipe-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-namedpipe-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-datetime-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
    'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-datetime-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-core-string-l1-1-0.dll',
+  ('api-ms-win-core-file-l1-2-0.dll',
    'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-string-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-localization-l1-2-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-localization-l1-2-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processenvironment-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-processenvironment-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-util-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-util-l1-1-0.dll',
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-file-l1-2-0.dll',
    'BINARY'),
   ('api-ms-win-core-timezone-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
    'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-timezone-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-core-profile-l1-1-0.dll',
+  ('api-ms-win-core-localization-l1-2-0.dll',
    'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-profile-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-libraryloader-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-libraryloader-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-interlocked-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-interlocked-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-fibers-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-fibers-l1-1-0.dll',
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-localization-l1-2-0.dll',
    'BINARY'),
   ('api-ms-win-core-file-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
    'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-file-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-core-file-l2-1-0.dll',
+  ('api-ms-win-core-processthreads-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-file-l2-1-0.dll',
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-core-sysinfo-l1-1-0.dll',
+  ('api-ms-win-core-heap-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-sysinfo-l1-1-0.dll',
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-heap-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-string-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-string-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-memory-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-memory-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-interlocked-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-interlocked-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-synch-l1-2-0.dll',
    'C:\\Program Files\\Eclipse '
    'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-synch-l1-2-0.dll',
    'BINARY'),
-  ('api-ms-win-core-handle-l1-1-0.dll',
+  ('api-ms-win-core-file-l2-1-0.dll',
    'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-handle-l1-1-0.dll',
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-file-l2-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-fibers-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-fibers-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processenvironment-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-processenvironment-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-rtlsupport-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-rtlsupport-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-synch-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
    'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-synch-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-profile-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-profile-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-debug-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-debug-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-handle-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-handle-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-sysinfo-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-sysinfo-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-console-l1-1-0.dll',
+   'C:\\Program Files\\Eclipse '
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-console-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-errorhandling-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
@@ -775,357 +799,327 @@
    'C:\\Program Files\\Eclipse '
    'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-1.dll',
    'BINARY'),
-  ('api-ms-win-core-file-l1-2-0.dll',
+  ('api-ms-win-core-libraryloader-l1-1-0.dll',
    'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-file-l1-2-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processthreads-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-namedpipe-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-namedpipe-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-rtlsupport-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-rtlsupport-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-memory-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-memory-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-heap-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-heap-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-debug-l1-1-0.dll',
-   'C:\\Program Files\\Eclipse '
-   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-debug-l1-1-0.dll',
+   'Adoptium\\jdk-17.0.10.7-hotspot\\bin\\api-ms-win-core-libraryloader-l1-1-0.dll',
    'BINARY')],
  [],
  [],
  [('highlighter.ico',
    'U:\\Pcharm Projects\\LineHighlighter\\highlighter.ico',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ja.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ja.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_da.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_da.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fa.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fa.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_pt.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pt.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_it.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_it.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_bg.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_bg.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fi.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fi.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_bg.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_bg.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_tr.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_tr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_lv.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_lv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_pl.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_it.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_it.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_lv.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_uk.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_uk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_uk.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_uk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_cs.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_cs.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_gl.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ca.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ca.qm',
-   'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_gl.qm',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_gl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_sk.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_hu.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_hu.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ja.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ja.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ca.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ca.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ja.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ja.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fr.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_fr.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_fr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_es.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_es.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_fr.qm',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fr.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_he.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_ja.qm',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_he.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ko.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ko.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ko.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ko.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_sl.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_de.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_de.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ar.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ar.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_tr.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_tr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_tr.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_tr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_en.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_en.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_sl.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_sk.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_sk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_he.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_he.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_da.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_da.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_sk.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_gd.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gd.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ar.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ar.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ko.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ko.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ru.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ru.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_bg.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_bg.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_pl.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_pl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_de.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_de.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_en.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_en.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_da.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_da.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_sv.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_cs.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_cs.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_fi.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fi.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_es.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_es.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_pl.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_pl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_hu.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_hu.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_de.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_de.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_lt.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lt.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_hu.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_hu.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_gd.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_gd.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_cs.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_cs.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_it.qm',
-   'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_it.qm',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ja.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_en.qm',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_en.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_es.qm',
+  ('PyQt5\\Qt5\\translations\\qt_he.qm',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_es.qm',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_he.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ru.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_es.qm',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ru.qm',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_es.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ca.qm',
+  ('PyQt5\\Qt5\\translations\\qt_de.qm',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ca.qm',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_de.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_uk.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_ar.qm',
    'U:\\Pcharm '
-   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_uk.qm',
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ar.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_tr.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fi.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fi.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_da.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_da.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_en.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_en.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_ar.qm',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ar.qm',
    'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ko.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ko.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_gl.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_sl.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_lv.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lv.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_he.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_he.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fa.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fa.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ko.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ko.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_pl.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_pl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ja.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ja.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_de.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_sk.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_sk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_lv.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_lv.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_lt.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lt.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ru.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ru.qm',
+   'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_ru.qm',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ru.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_sv.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sv.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_sk.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_tr.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_gd.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gd.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_pt.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pt.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_bg.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_hu.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_cs.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_cs.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_hu.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_uk.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_uk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_sk.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_fr.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_fr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_it.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_it.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_en.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_en.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ar.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ar.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ko.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ko.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_es.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_es.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ca.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_sl.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_es.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_es.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_uk.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_uk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ca.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_hu.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_uk.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_uk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_pl.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_gd.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_gd.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_bg.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_bg.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_cs.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_cs.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_de.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ja.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ja.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_tr.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_fi.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fi.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_pl.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_pl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_it.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_it.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_it.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_it.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_da.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_da.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_cs.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_cs.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ca.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_da.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_da.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fr.qm',
+   'U:\\Pcharm '
+   'Projects\\LineHighlighter\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fr.qm',
    'DATA'),
   ('base_library.zip',
    'U:\\Pcharm '
    'Projects\\LineHighlighter\\build\\LineHighlighter\\base_library.zip',
    'DATA')],
- [('posixpath',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\posixpath.py',
+ [('genericpath',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\genericpath.py',
    'PYMODULE'),
-  ('locale',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\locale.py',
+  ('sre_constants',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\sre_constants.py',
    'PYMODULE'),
-  ('keyword',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\keyword.py',
-   'PYMODULE'),
-  ('sre_compile',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\sre_compile.py',
-   'PYMODULE'),
-  ('sre_parse',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\sre_parse.py',
+  ('enum',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\enum.py',
    'PYMODULE'),
   ('encodings.zlib_codec',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\encodings\\zlib_codec.py',
@@ -1493,78 +1487,84 @@
   ('encodings',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\encodings\\__init__.py',
    'PYMODULE'),
-  ('linecache',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\linecache.py',
-   'PYMODULE'),
   ('io',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\io.py',
+   'PYMODULE'),
+  ('reprlib',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\reprlib.py',
+   'PYMODULE'),
+  ('sre_parse',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\sre_parse.py',
    'PYMODULE'),
   ('traceback',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\traceback.py',
    'PYMODULE'),
-  ('enum',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\enum.py',
+  ('ntpath',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\ntpath.py',
+   'PYMODULE'),
+  ('keyword',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\keyword.py',
+   'PYMODULE'),
+  ('operator',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\operator.py',
+   'PYMODULE'),
+  ('stat',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\stat.py',
+   'PYMODULE'),
+  ('codecs',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\codecs.py',
+   'PYMODULE'),
+  ('functools',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\functools.py',
+   'PYMODULE'),
+  ('heapq',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\heapq.py',
+   'PYMODULE'),
+  ('_weakrefset',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\_weakrefset.py',
+   'PYMODULE'),
+  ('warnings',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\warnings.py',
+   'PYMODULE'),
+  ('os',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\os.py',
+   'PYMODULE'),
+  ('sre_compile',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\sre_compile.py',
+   'PYMODULE'),
+  ('posixpath',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\posixpath.py',
+   'PYMODULE'),
+  ('abc',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\abc.py',
+   'PYMODULE'),
+  ('locale',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\locale.py',
+   'PYMODULE'),
+  ('re',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\re.py',
+   'PYMODULE'),
+  ('copyreg',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\copyreg.py',
+   'PYMODULE'),
+  ('_bootlocale',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\_bootlocale.py',
+   'PYMODULE'),
+  ('linecache',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\linecache.py',
+   'PYMODULE'),
+  ('weakref',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\weakref.py',
    'PYMODULE'),
   ('_collections_abc',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\_collections_abc.py',
+   'PYMODULE'),
+  ('types',
+   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\types.py',
    'PYMODULE'),
   ('collections.abc',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\collections\\abc.py',
    'PYMODULE'),
   ('collections',
    'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\collections\\__init__.py',
-   'PYMODULE'),
-  ('_weakrefset',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\_weakrefset.py',
-   'PYMODULE'),
-  ('reprlib',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\reprlib.py',
-   'PYMODULE'),
-  ('heapq',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\heapq.py',
-   'PYMODULE'),
-  ('re',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\re.py',
-   'PYMODULE'),
-  ('ntpath',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\ntpath.py',
-   'PYMODULE'),
-  ('abc',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\abc.py',
-   'PYMODULE'),
-  ('genericpath',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\genericpath.py',
-   'PYMODULE'),
-  ('stat',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\stat.py',
-   'PYMODULE'),
-  ('copyreg',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\copyreg.py',
-   'PYMODULE'),
-  ('types',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\types.py',
-   'PYMODULE'),
-  ('sre_constants',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\sre_constants.py',
-   'PYMODULE'),
-  ('os',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\os.py',
-   'PYMODULE'),
-  ('operator',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\operator.py',
-   'PYMODULE'),
-  ('weakref',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\weakref.py',
-   'PYMODULE'),
-  ('warnings',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\warnings.py',
-   'PYMODULE'),
-  ('functools',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\functools.py',
-   'PYMODULE'),
-  ('codecs',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\codecs.py',
-   'PYMODULE'),
-  ('_bootlocale',
-   'C:\\Users\\thomas.moissl\\AppData\\Local\\Programs\\Python\\Python39\\lib\\_bootlocale.py',
    'PYMODULE')])

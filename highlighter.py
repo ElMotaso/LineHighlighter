@@ -280,18 +280,35 @@ class SettingsDialog(QtWidgets.QWidget):
 
     def choose_color(self):
         dialog = QtWidgets.QColorDialog(self.color, self)
-        # For preview changes (don't emit settings_changed yet)
-        dialog.currentColorChanged.connect(self._preview_color)
+        # For live preview while using the color picker
+        dialog.currentColorChanged.connect(self._preview_color_live)
         # For final selection when OK is clicked
         dialog.colorSelected.connect(self._update_color)
-        dialog.exec_()
+
+        # Store original color in case user cancels
+        self._original_color = QtGui.QColor(self.color)
+
+        # Execute dialog
+        result = dialog.exec_()
+
+        # If canceled, restore original color
+        if not result:
+            self.color = self._original_color
+            self.settings_changed.emit()  # Restore the original color in the overlay
 
     def _preview_color(self, col: QtGui.QColor):
-        # Only update the temporary preview, don't emit signals
-        if col.isValid():
-            self.color = col
-            # Optional: You could update a preview element here if needed
+        """No longer needed as we're using _preview_color_live instead"""
+        pass
 
+    def _preview_color_live(self, col: QtGui.QColor):
+        """Update color in real-time while in color picker"""
+        if col.isValid():
+            # Temporarily update the color
+            self.color = QtGui.QColor(col.red(), col.green(), col.blue())
+
+            # Signal that settings changed to update the highlighter immediately
+            self.settings_changed.emit()
+    
     def _update_color(self, col: QtGui.QColor):
         if col.isValid():
             # Create a new color object to avoid reference issues
