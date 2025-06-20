@@ -63,7 +63,10 @@ class HighlightBar(QtWidgets.QWidget):
         self.settings = settings
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
-        screen_w = QtWidgets.QApplication.primaryScreen().size().width()
+        cursor_screen = QtWidgets.QApplication.screenAt(QtGui.QCursor.pos())
+        screen_w = (cursor_screen.geometry().width()
+                    if cursor_screen is not None
+                    else QtWidgets.QApplication.primaryScreen().size().width())
 
         # Force the width explicitly, but respect the user's setting if possible
         self._desired_width = min(self.settings.width, screen_w)
@@ -134,16 +137,18 @@ class HighlightBar(QtWidgets.QWidget):
 
     # This method needs to be un-indented to become a class method
     def update_settings(self, settings: Settings):
-        print(f"HighlightBar.update_settings called with color: {settings.color.name()}")
         old_color = self._color
         self.settings = settings
-        screen_w = QtWidgets.QApplication.primaryScreen().size().width()
+        screen = QtWidgets.QApplication.screenAt(QtGui.QCursor.pos())
+        screen_w = (screen.geometry().width()
+                     if screen is not None
+                     else QtWidgets.QApplication.primaryScreen().size().width())
 
-        # Update desired dimensions, but respect screen width
+        # Update desired dimensions; width will be clamped in update_position
         self._desired_width = min(settings.width, screen_w)
         self._desired_height = settings.height
 
-        # Apply as fixed size
+        # Apply as fixed size immediately
         self.setFixedSize(self._desired_width, self._desired_height)
 
         # Create a completely new QColor to avoid reference issues
@@ -152,7 +157,6 @@ class HighlightBar(QtWidgets.QWidget):
             settings.color.green(),
             settings.color.blue()
         )
-        print(f"Color changed from {old_color.name()} to {self._color.name()}")
 
         if sys.platform.startswith('win') and self._click_through_applied:
             self._update_alpha_win()
@@ -164,8 +168,21 @@ class HighlightBar(QtWidgets.QWidget):
 
     def update_position(self):
         pos = QtGui.QCursor.pos()
+        screen = QtWidgets.QApplication.screenAt(pos)
+        if screen is not None:
+            geo = screen.geometry()
+            # Adjust width for the current screen
+            screen_w = geo.width()
+            new_width = min(self.settings.width, screen_w)
+            if new_width != self._desired_width:
+                self._desired_width = new_width
+                self.setFixedSize(self._desired_width, self._desired_height)
+            x = geo.x()
+        else:
+            # Fallback to primary screen origin
+            x = 0
         y = pos.y() - self._desired_height // 2
-        self.move(0, y)
+        self.move(x, y)
         self.repaint()
 
     def paintEvent(self, event):
@@ -313,15 +330,12 @@ class SettingsDialog(QtWidgets.QWidget):
         if col.isValid():
             # Create a new color object to avoid reference issues
             self.color = QtGui.QColor(col.red(), col.green(), col.blue())
-            print(f"Color changed to: R={col.red()}, G={col.green()}, B={col.blue()}")
 
             # Signal that settings changed
             self.settings_changed.emit()
 
             # Optionally, inform user if highlighter isn't running
             from_controller = hasattr(self, 'parent') and isinstance(self.parent(), Controller)
-            if not from_controller and not self.highlighter_active:
-                print("Note: Color will be applied when highlighter is started")
 
 
 
@@ -365,10 +379,8 @@ class Controller:
 
     def live_update_settings(self):
         """Update overlay immediately when settings change"""
-        print("live_update_settings called")
         if self.overlay is not None:
             settings = self.dialog.get_settings()
-            print(f"Updating overlay with settings: color={settings.color.name()}")
             
             # Get current color of the overlay for comparison
             current_color = self.overlay._color.name()
@@ -376,7 +388,6 @@ class Controller:
             
             # If color changed, recreate the highlighter
             if current_color != new_color:
-                print(f"Color changed from {current_color} to {new_color} - recreating highlighter")
                 # Remember position
                 old_pos = self.overlay.pos()
                 
